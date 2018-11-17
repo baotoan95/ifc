@@ -1,0 +1,33 @@
+.sign-up {
+  border: 1px solid gray;
+  background-color: #2c3e50;
+  padding: 10px;
+  margin-top: 50px;
+
+  h3 {
+    font-size: 2rem;
+    text-align: center;
+    color: white;
+    text-transform: uppercase;
+    font-weight: bold;
+    border-bottom: 1px dashed whitesmoke;
+    margin-bottom: 30px;
+  }
+
+  .form-group, .form-check {
+    label {
+      color: white;
+      font-size: 1rem;
+    }
+    .form-control {
+      background-color: transparent;
+      color: whitesmoke;
+    }
+  }
+  button[type=submit] {
+    background-color: #4c6c8b;
+    float: right;
+    outline: 0;
+    border: 0;
+  }
+}

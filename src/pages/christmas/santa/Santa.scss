@@ -1,0 +1,10 @@
+#santa {
+    width: 12%;
+    height: 10%;
+    background: url("../../../assets/images/santa.gif");
+    position: absolute;
+    background-position: center;
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    transition: left 5s, top 5s;
+}

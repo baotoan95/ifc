@@ -1,0 +1,24 @@
+.marquee-container {
+    position: relative;
+    width: 100%;
+
+    .marquee {
+        padding-top: 10px;
+        position: absolute;
+        animation: marquee 20s linear infinite;
+
+        img {
+            width: 5%;
+            height: 12%;
+        }
+
+        @keyframes marquee {
+            0% {
+                transform: translate(150%, 0);
+            }
+            100% {
+                transform: translate(-100%, 0);
+            }
+        }
+    }
+}

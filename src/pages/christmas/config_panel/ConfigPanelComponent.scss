@@ -1,0 +1,37 @@
+.config-panel {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background: #111;
+    transition: width 1s;
+    display: block !important;
+
+    &>* {
+        display: none;
+    }
+
+    .toggle {
+        padding: 5px 10px;
+        position: absolute;
+        right: -30px;
+        top: 0;
+        bottom: 0;
+        height: 30px;
+        display: block;
+        margin: auto;
+        background: darkblue;
+        cursor: pointer;
+    }
+
+    &.show {
+        width: 300px;
+        padding: 20px;
+
+        &>* {
+            display: block;
+        }
+    }
+}

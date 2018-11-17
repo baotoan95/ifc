@@ -1,0 +1,28 @@
+database:
+  name: ifc
+  username: postgres
+  password: root
+  host: localhost
+  port: 5432
+  dialect: postgres
+  acquire: 30000
+  idle: 10000
+  logging: false
+  useAliases: false
+
+ui:
+  url: http://localhost:3000
+
+social:
+  facebook:
+    clientId: 316643352465436
+    clientSecret: c66904d9aedf3085f993636d49004b37
+    callback: http://localhost:8080/auth/facebook/callback
+  google:
+    clientId: 748822582527-8nibm9l569r20egmb3vubpjuof6kgmsu.apps.googleusercontent.com
+    clientSecret: oVgrZZYyfeTC6D7kGwCwcRAI
+    callback: http://localhost:8080/auth/google/callback
+
+authentication:
+  loginPage: http://localhost:3000/
+  loginSuccessRedirect: http://localhost:3000/auth
