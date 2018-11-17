@@ -1,4 +1,4 @@
-import { connect } from "react-redux";
+import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import Typing from './Typing';
 import { typing, initMessage } from './TypingAction';

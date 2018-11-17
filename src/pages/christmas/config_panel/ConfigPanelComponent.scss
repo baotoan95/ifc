@@ -1,37 +1,49 @@
-.config-panel {
-    height: 100%;
-    width: 0;
-    position: fixed;
-    z-index: 1;
-    top: 0;
-    left: 0;
-    background: #111;
-    transition: width 1s;
-    display: block !important;
-
-    &>* {
-        display: none;
-    }
-
-    .toggle {
-        padding: 5px 10px;
-        position: absolute;
-        right: -30px;
+.control-panel-wrapper {
+    .config-panel {
+        height: 100%;
+        width: 30%;
+        position: fixed;
+        z-index: 1;
         top: 0;
-        bottom: 0;
-        height: 30px;
-        display: block;
-        margin: auto;
-        background: darkblue;
-        cursor: pointer;
-    }
-
-    &.show {
-        width: 300px;
+        left: -30%;
+        background: #111;
+        transition: left 1s;
+        display: block !important;
         padding: 20px;
 
-        &>* {
+        .toggle {
+            padding: 5px 10px;
+            position: absolute;
+            right: -30px;
+            top: 0;
+            bottom: 0;
+            height: 30px;
             display: block;
+            margin: auto;
+            background: darkblue;
+            cursor: pointer;
         }
+
+        &.show {
+            left: 0;
+        }
+
+        .panel {
+            overflow: hidden;
+        }
+    }
+
+    .typo {
+        position: absolute;
+        top: 20%;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        margin: auto;
+        color: white;
+        width: 50%;
+        text-align: center;
+        font-size: 1.5vw;
+        font-family: 'Rakkas', serif;
     }
 }

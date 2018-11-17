@@ -1,4 +1,5 @@
 module.exports = {
-    USER_TABLE: 'users'
+    USER_TABLE: 'users',
+    WISH_TABLE: 'wishes'
 }
     

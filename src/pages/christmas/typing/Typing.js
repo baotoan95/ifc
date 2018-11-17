@@ -6,13 +6,16 @@ class Typing extends Component {
         super(props);
         this.props.initMessage();
     }
+    
     componentDidMount() {
         let count = 0;
         const interval = setInterval(() => {
             this.props.typing(count++);
+            if(this.refs.typo) {
             this.refs.typo.innerHTML = this.props.typer.message;
-            if(this.props.typer.rest === 0) {
-                clearInterval(interval);
+                if(this.props.typer.rest === 0) {
+                    clearInterval(interval);
+                }
             }
         }, 50);
     }

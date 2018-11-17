@@ -17,11 +17,11 @@ social:
   facebook:
     clientId: 316643352465436
     clientSecret: c66904d9aedf3085f993636d49004b37
-    callback: http://localhost:8080/auth/facebook/callback
+    callback: http://localhost:8080/uaa/facebook/callback
   google:
     clientId: 748822582527-8nibm9l569r20egmb3vubpjuof6kgmsu.apps.googleusercontent.com
     clientSecret: oVgrZZYyfeTC6D7kGwCwcRAI
-    callback: http://localhost:8080/auth/google/callback
+    callback: http://localhost:8080/uaa/google/callback
 
 authentication:
   loginPage: http://localhost:3000/

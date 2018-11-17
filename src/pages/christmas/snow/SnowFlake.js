@@ -18,7 +18,7 @@ class Snowflake {
     }
 
     move = () => {
-        
+
         this.x += this.vx + Math.min(Math.max(Snowflake.wind, -10), 10);
         this.y += this.vy;
 
@@ -40,7 +40,7 @@ class Snowflake {
     draw = () => {
         this.div.style.transform =
             this.div.style.MozTransform =
-            this.div.style.webkitTransform = 
+            this.div.style.webkitTransform =
             'translate3d('.concat(this.x).concat('px').concat(',').concat(this.y).concat('px,0)');
     };
 

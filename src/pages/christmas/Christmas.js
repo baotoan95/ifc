@@ -4,7 +4,7 @@ import Santa from './santa/Santa';
 import Marquee from './marquee/Marquee';
 import TypingContainer from './typing/TypingContainer';
 import SnowStorm from './snow/SnowStorm';
-import ConfigPanelComponent from './config_panel/ConfigPanelComponent';
+import ConfigPanelContainer from './config_panel/ConfigPanelContainer';
 
 import image_lights2 from '../../assets/images/lights2.gif';
 import image_topLeft from '../../assets/images/top-left.png';
@@ -26,7 +26,6 @@ import Fireworks from './fireworks/fireworks';
 
 class Christmas extends Component {
     firework = null;
-    showConfigPanel = false;
 
     componentDidMount() {
         const bigGlow = document.createElement('img');
@@ -59,7 +58,7 @@ class Christmas extends Component {
                 <img src={canvas_background} id="canvas-background" alt="I" />
             </aside>
 
-            <ConfigPanelComponent display={this.props.christmas.showConfigPanel} toggle={this.props.toggleConfigPanel}/>
+            <ConfigPanelContainer display={this.props.christmas.showConfigPanel} toggle={this.props.toggleConfigPanel}/>
 
             <div id={'content' + (this.props.christmas.showConfigPanel ? ' scale' : '')}>
                 <img alt="lights" className="lights" src={image_lights2} />
@@ -67,7 +66,7 @@ class Christmas extends Component {
                 <Marquee />
                 <img alt="top-left" className="top-left" src={image_topLeft} />
                 <img alt="top-right" className="top-right" src={image_topRight} />
-                <TypingContainer />
+                {!this.props.christmas.showConfigPanel && <TypingContainer />}
                 <img alt="footer" className="footer" src={image_footer} />
                 <img alt="pine1" className="pine1" src={image_pine1} />
                 <img alt="pine2" className="pine2" src={image_pine2} />
@@ -78,8 +77,8 @@ class Christmas extends Component {
                 <img alt="angel2" className="angel2" src={image_angel} />
                 <Santa />
             </div>
-            <iframe type="audio/mpeg" title="Background audio" src={sound_background} allow="autoplay" id="audio" style={{ display: 'none' }} />
-            <SnowStorm />
+            {!this.props.christmas.showConfigPanel && <iframe type="audio/mpeg" title="Background audio" src={sound_background} allow="autoplay" id="audio" style={{ display: 'none' }} />}
+            {/* <SnowStorm /> */}
         </div>
     }
 }
