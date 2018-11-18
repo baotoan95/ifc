@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as formReducer } from 'redux-form';
 import TypingReducer from '../pages/christmas/typing/TypingReducer';
 import SignInReducer from '../pages/sign_in/SignInReducer';
 import SignUpReducer from '../pages/sign_up/SignUpReducer';
@@ -12,5 +13,6 @@ export default combineReducers({
     signUp: SignUpReducer,
     loading: LoadingReducer,
     christmas: ChristmasReducer,
-    configPanel: ConfigPanelReducer
+    configPanel: ConfigPanelReducer,
+    form: formReducer
 });

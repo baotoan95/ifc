@@ -6,7 +6,8 @@ router.get('/init', (req, res) => {
     migrateService.init().then(rs => {
         res.json(rs);
     }).catch(err => {
-        res.error(err);
+        console.log(err)
+        res.send(err);
     });
 });
 

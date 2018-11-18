@@ -12,7 +12,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         typing: actions.typing,
-        backgroundSoundChanged: actions.backgroundSoundChanged
+        backgroundSoundChanged: actions.backgroundSoundChanged,
+        create: actions.create
     }, dispatch);
 }
 

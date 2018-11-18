@@ -12,3 +12,18 @@ body {
 .clear {
   clear: both;
 }
+
+.form-control {
+  background: transparent !important;
+  outline: none !important;
+  box-shadow: none !important;
+  color: white !important;
+  
+  &:focus {
+    border-color: none;
+  }
+}
+
+.pull-right {
+  float: right;
+}

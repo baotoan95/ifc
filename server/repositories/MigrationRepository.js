@@ -1,15 +1,17 @@
 const entities = require('../entities');
 
 const init = async () => {
-    await entities.User.sync({force: true});
-    await entities.Wish.sync({force: true});
-    return true;
+    return await Promise.all([
+        entities.User.sync({force: true}),
+        entities.Wish.sync({force: true})
+    ]);
 }
 
 const upgrade = async () => {
-    await entities.User.sync({force: false});
-    await entities.Wish.sync({force: false});
-    return true;
+    return await [
+            entities.User.sync({force: false}),
+            entities.Wish.sync({force: false})
+        ];
 }
 
 module.exports = {

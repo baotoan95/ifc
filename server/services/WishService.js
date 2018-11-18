@@ -3,9 +3,10 @@ const GenericResponse = require('../common/GenericResponse');
 const ResponseStatus = require('../common/ResponseStatus');
 
 const addWish = async (wish) => {
-    const newWish = wishRepository.add(wish);
+    wish.code = new Date().getTime();
+    const newWish = await wishRepository.add(wish);
     if(newWish) {
-        return new GenericResponse(ResponseStatus.ResponseStatus, null, newWish);
+        return new GenericResponse(ResponseStatus.ACKNOWLEDGED, null, newWish);
     } else {
         return new GenericResponse(
             ResponseStatus.INTERNAL_ERROR,
@@ -16,9 +17,9 @@ const addWish = async (wish) => {
 }
 
 const updateWish = async (wish) => {
-    const newWish = wishRepository.update(wish);
+    const newWish = await wishRepository.update(wish);
     if(newWish) {
-        return new GenericResponse(ResponseStatus.ResponseStatus, null, newWish);
+        return new GenericResponse(ResponseStatus.ACKNOWLEDGED, null, newWish);
     } else {
         return new GenericResponse(
             ResponseStatus.INTERNAL_ERROR,

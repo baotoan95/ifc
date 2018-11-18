@@ -1,5 +1,17 @@
 import React, { Component } from 'react';
 import './ConfigPanelComponent.scss';
+import { Field, reduxForm } from 'redux-form';
+import { create } from './ConfigPanelAction';
+
+const validate = (values) => {
+    const errors = {};
+
+    if(!values.message) {
+        errors.message = 'Message is required';
+    }
+
+    return errors;
+}
 
 class ConfigPanelComponent extends Component {
     typing = (e) => {
@@ -10,24 +22,46 @@ class ConfigPanelComponent extends Component {
         this.props.backgroundSoundChanged(e.target.value);
     }
 
+    handleSubmit = (values) => {
+        create(values)
+        .then(rs => {
+            console.log(rs);
+            this.props.callback(rs.data.id);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
+    renderMessageField = ({ input, label, type, meta: { touched, error, warning } }) => {
+        return <div className={"form-group" + (touched && error ? " hasError" : "")}>
+                    <label htmlFor="message">{label}</label>
+                    <textarea {...input} className="form-control" type={type}
+                        rows={3} />
+                    {touched && error && <span>{error}</span>}
+                </div>
+    }
+
     render() {
+        const { handleSubmit, pristine, reset, submitting, invalid } = this.props;
         return (
             <div className="control-panel-wrapper">
                 <div className={'config-panel' + (this.props.display ? ' show' : ' hidden')}>
                     <div className="toggle" onClick={this.props.toggle}>|||</div>
                     <div className="panel">
-                        <form>
+                        <form onSubmit={handleSubmit(this.handleSubmit)}>
                             <div className="form-group">
                                 <label htmlFor="backgroundMusic">Background music</label>
-                                <input type="text" className="form-control" onBlur={this.changeBackgroundSound}
+                                <Field type="text" className="form-control" name="background_sound"
+                                component="input" onBlur={this.changeBackgroundSound}
                                 id="backgroundMusic" placeholder="https://www.nhaccuatui.com/mh/auto/I2jtpWcn3M" />
                             </div>
+                            <Field name="message"
+                                component={this.renderMessageField}
+                                onChange={this.typing}/>
                             <div className="form-group">
-                                <label htmlFor="message">Message</label>
-                                <textarea className="form-control" id="message" rows={3} onChange={this.typing} />
-                            </div>
-                            <div className="form-group">
-                                <button className="btn btn-primary">Note</button>
+                                <button className="btn btn-primary" type="submit" disabled={pristine || submitting || invalid}>Note</button>
+                                <button className="btn btn-primary pull-right" type="button" onClick={reset}>Reset</button>
                             </div>
                         </form>
                     </div>
@@ -39,4 +73,7 @@ class ConfigPanelComponent extends Component {
     }
 }
 
-export default ConfigPanelComponent;
+export default reduxForm({
+    form: 'config',
+    validate
+})(ConfigPanelComponent);

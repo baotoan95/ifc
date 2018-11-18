@@ -26,6 +26,7 @@ import Fireworks from './fireworks/fireworks';
 
 class Christmas extends Component {
     firework = null;
+    showModal = false;
 
     componentDidMount() {
         const bigGlow = document.createElement('img');
@@ -49,6 +50,11 @@ class Christmas extends Component {
         }, 1000);
     }
 
+    handleCreateSuccess = (id) => {
+        console.log(id);
+        this.showModal = true;
+    }
+
     render() {
         return <div className="christmas-container">
             {/* Hiding library elements in the DOM is fun */}
@@ -58,7 +64,8 @@ class Christmas extends Component {
                 <img src={canvas_background} id="canvas-background" alt="I" />
             </aside>
 
-            <ConfigPanelContainer display={this.props.christmas.showConfigPanel} toggle={this.props.toggleConfigPanel}/>
+            <ConfigPanelContainer callback={this.handleCreateSuccess}
+                display={this.props.christmas.showConfigPanel} toggle={this.props.toggleConfigPanel}/>
 
             <div id={'content' + (this.props.christmas.showConfigPanel ? ' scale' : '')}>
                 <img alt="lights" className="lights" src={image_lights2} />
@@ -77,8 +84,20 @@ class Christmas extends Component {
                 <img alt="angel2" className="angel2" src={image_angel} />
                 <Santa />
             </div>
-            {!this.props.christmas.showConfigPanel && <iframe type="audio/mpeg" title="Background audio" src={sound_background} allow="autoplay" id="audio" style={{ display: 'none' }} />}
+            {/* {!this.props.christmas.showConfigPanel && <iframe type="audio/mpeg" title="Background audio" src={sound_background} allow="autoplay" id="audio" style={{ display: 'none' }} />} */}
             {/* <SnowStorm /> */}
+            {this.showModal && <div className="modal-container">
+                <div className="modal">
+                    <div className="modal-title">Create successfully</div>
+                    <div className="modal-content">
+                        <p>Copy the follow link and send to your love:</p>
+
+                    </div>
+                    <div className="modal-actions">
+                        <button className="btn btn-primary">Ok</button>
+                    </div>
+                </div>
+            </div>}
         </div>
     }
 }

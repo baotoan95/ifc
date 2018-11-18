@@ -1,6 +1,14 @@
+import axios from 'axios';
+import * as URLs from '../../../constants/URLConstants';
+
 export const TYPING = 'TYPING';
 export const BACKGROUND_SOUND_CHANGED = 'BACKGROUND_SOUND_CHANGED';
-export const SUBMIT = 'SUBMIT';
+export const CREATE_WISH_SUCCESS = 'CREATE_WISH_SUCCESS';
+export const CREATE_WISH_FAILURE = 'CREATE_WISH_SUCCESS';
+export const UPDATE_WISH_SUCCESS = 'UPDATE_WISH_SUCCESS';
+export const UPDATE_WISH_FAILURE = 'UPDATE_WISH_FAILURE';
+
+
 
 export const typing = (text) => {
     return {
@@ -14,4 +22,14 @@ export const backgroundSoundChanged = (url) => {
         type: BACKGROUND_SOUND_CHANGED,
         payload: url
     }
+}
+
+export const create = (wish) => {
+    return axios.post(URLs.WISHES_URL, wish)
+    .then((res) => {
+        return res.data;
+      })
+      .catch((err) => {
+        return err.data;
+      });
 }

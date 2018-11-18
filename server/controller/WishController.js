@@ -10,7 +10,8 @@ router.post('/', (req, res) => {
     wishService.addWish(wish).then(rs => {
         res.send(rs);
     }).catch(err => {
-        res.error(err);
+        console.log(err);
+        res.send(err);
     })
 })
 
