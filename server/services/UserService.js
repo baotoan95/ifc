@@ -1,6 +1,7 @@
 const userRepository = require('../repositories/UserRepository');
 const GenericResponse = require('../common/GenericResponse');
 const ResponseStatus = require('../common/ResponseStatus');
+const bcrypt = require('bcrypt');
 
 const findAll = async () => {
     try {
@@ -20,16 +21,23 @@ const findAll = async () => {
 }
 
 const addUser = async (user) => {
-    console.log('Creating user', user);
     try {
-        const newUser = await userRepository.add(user);
-        return new GenericResponse(
-            ResponseStatus.ACKNOWLEDGED,
-            null,
-            newUser
-        );
+        if(user.password) {
+            user.password = bcrypt.hash(user.password, 10, (err, hash) => {
+                const newUser = await userRepository.add(user);
+                return new GenericResponse(
+                    ResponseStatus.ACKNOWLEDGED,
+                    null,
+                    newUser
+                );
+            });
+        } else {
+            return new GenericResponse(
+                ResponseStatus.BAD_REQUEST,
+                'Password is required'
+            )
+        }
     } catch (e) {
-        console.log(e);
         return new GenericResponse(
             ResponseStatus.INTERNAL_ERROR,
             'Server error, please try doing it again!',

@@ -26,7 +26,6 @@ import Fireworks from './fireworks/fireworks';
 
 class Christmas extends Component {
     firework = null;
-    showModal = false;
 
     componentDidMount() {
         const bigGlow = document.createElement('img');
@@ -50,9 +49,13 @@ class Christmas extends Component {
         }, 1000);
     }
 
-    handleCreateSuccess = (id) => {
-        console.log(id);
-        this.showModal = true;
+    handleCreateSuccess = (code) => {
+        this.props.addWishSuccess(code);
+    }
+
+    copyLink = (e) => {
+        e.target.select();
+        document.execCommand('copy');
     }
 
     render() {
@@ -86,15 +89,18 @@ class Christmas extends Component {
             </div>
             {/* {!this.props.christmas.showConfigPanel && <iframe type="audio/mpeg" title="Background audio" src={sound_background} allow="autoplay" id="audio" style={{ display: 'none' }} />} */}
             {/* <SnowStorm /> */}
-            {this.showModal && <div className="modal-container">
+            {this.props.showGetLinkModal && <div className="modal-container">
                 <div className="modal">
                     <div className="modal-title">Create successfully</div>
                     <div className="modal-content">
-                        <p>Copy the follow link and send to your love:</p>
-
+                        <p>Click to link below to copy and send to your love:</p>
+                        <input type="text" readOnly={true} ref="link" 
+                        onClick={this.copyLink}
+                        className="form-control" 
+                        value={"http://localhost:3000/christmas?w=" + this.props.wishLink} />
                     </div>
                     <div className="modal-actions">
-                        <button className="btn btn-primary">Ok</button>
+                        <button className="btn btn-primary" onClick={this.props.toggleGetLinkModal}>Ok</button>
                     </div>
                 </div>
             </div>}

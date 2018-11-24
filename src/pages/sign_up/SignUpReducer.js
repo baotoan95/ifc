@@ -1,3 +1,16 @@
-export default (state = {}, action) => {
-    return state;
+import * as Actions from './SignUpActions';
+
+let initState = {
+    signUpSuccess: false,
+    resMessage: ''
+}
+export default (state = initState, action) => {
+    switch(action.type) {
+        case Actions.SIGN_UP_SUCCESS:
+            return {...state, signUpSuccess: true, resMessage: ''}
+        case Actions.SIGN_UP_FAILURE:
+            return {...state, signUpSuccess: false, resMessage: action.payload}
+        default:
+            return state;
+    }
 }

@@ -25,12 +25,8 @@ class ConfigPanelComponent extends Component {
     handleSubmit = (values) => {
         create(values)
         .then(rs => {
-            console.log(rs);
-            this.props.callback(rs.data.id);
-        })
-        .catch(err => {
-            console.log(err);
-        })
+            this.props.callback(rs.data.data.code);
+        });
     }
 
     renderMessageField = ({ input, label, type, meta: { touched, error, warning } }) => {

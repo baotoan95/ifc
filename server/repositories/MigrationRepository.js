@@ -8,10 +8,10 @@ const init = async () => {
 }
 
 const upgrade = async () => {
-    return await [
+    return await Promise.all([
             entities.User.sync({force: false}),
             entities.Wish.sync({force: false})
-        ];
+        ]);
 }
 
 module.exports = {

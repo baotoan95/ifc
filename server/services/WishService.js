@@ -29,7 +29,21 @@ const updateWish = async (wish) => {
     }
 }
 
+const getWish = async (code) => {
+    try {
+        const wish = await wishRepository.get(code);
+        return new GenericResponse(ResponseStatus.ACKNOWLEDGED, null, wish);
+    } catch(err) {
+        return new GenericResponse(
+            ResponseStatus.INTERNAL_ERROR,
+            'Server error, please try doing it again!',
+            e
+        )
+    }
+}
+
 module.exports = {
     addWish,
-    updateWish
+    updateWish,
+    getWish
 }

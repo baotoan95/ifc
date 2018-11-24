@@ -24,12 +24,6 @@ export const backgroundSoundChanged = (url) => {
     }
 }
 
-export const create = (wish) => {
-    return axios.post(URLs.WISHES_URL, wish)
-    .then((res) => {
-        return res.data;
-      })
-      .catch((err) => {
-        return err.data;
-      });
+export const create = async (wish) => {
+    return await axios.post(URLs.WISHES_URL, wish);
 }

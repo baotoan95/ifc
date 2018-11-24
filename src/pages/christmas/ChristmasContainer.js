@@ -1,17 +1,25 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { toggle } from './ChristmasAction';
 import Christmas from './Christmas';
+import {
+    toggleConfigPanel,
+    toggleGetLinkModal,
+    addWishSuccess
+} from './ChristmasAction';
 
 function mapStateToProps(state) {
     return {
-        christmas: state.christmas
+        christmas: state.christmas,
+        showGetLinkModal: state.christmas.showGetLinkModal,
+        wishLink: state.christmas.wishLink
     }
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        toggleConfigPanel: toggle
+        toggleConfigPanel: toggleConfigPanel,
+        toggleGetLinkModal: toggleGetLinkModal,
+        addWishSuccess: addWishSuccess
     }, dispatch);
 }
 

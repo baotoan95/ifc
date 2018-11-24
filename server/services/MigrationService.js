@@ -3,20 +3,24 @@ const GenericResponse = require('../common/GenericResponse');
 const ResponseStatus = require('../common/ResponseStatus');
 
 const init = async () => {
-    const rs = await migrationRepository.init();
-    if(rs) {
-        return new GenericResponse(ResponseStatus.ACKNOWLEDGED, 'database tables created');
-    } else {
+    try {
+        const rs = await migrationRepository.init();
+        if(rs) {
+            return new GenericResponse(ResponseStatus.ACKNOWLEDGED, 'database tables created');
+        }
+    } catch (err) {
         return new GenericResponse(ResponseStatus.INTERNAL_ERROR, err);
-    };
+    }
 }
 
 const upgrade = async () => {
-    const rs = await migrationRepository.upgrade();
-    if(rs) {
-        return new GenericResponse(ResponseStatus.ACKNOWLEDGED, null, rs);
-    } else {
-        return new GenericResponse(ResponseStatus.INTERNAL_ERROR, e);
+    try {
+        const rs = await migrationRepository.upgrade();
+        if(rs) {
+            return new GenericResponse(ResponseStatus.ACKNOWLEDGED, null, rs);
+        }
+    } catch (err) {
+        return new GenericResponse(ResponseStatus.INTERNAL_ERROR, err);
     }
 }
 

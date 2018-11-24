@@ -138,8 +138,8 @@ body {
 		z-index: 9999;
 
 		.modal {
-			width: 40%;
-			height: 20%;
+			width: 45%;
+			height: 28%;
 			position: absolute;
 			top: -15%;
 			left: 0;
@@ -161,6 +161,10 @@ body {
 				border-radius: 0;
 				color: black;
 				padding: 5px;
+				.form-control {
+					background: transparent !important;
+					color: gray !important;
+				}
 			}
 
 			.modal-actions {
