@@ -1,6 +1,7 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import SignInComponent from './SignInComponent';
+import { signInFailure } from './SignInActions';
 
 function mapStateToProps(state, ownProps) {
     return {
@@ -10,7 +11,7 @@ function mapStateToProps(state, ownProps) {
 
 function mapDispatchToProps(dispatch, ownProps) {
     return bindActionCreators({
-
+        signInFailure
     }, dispatch);
 }
 

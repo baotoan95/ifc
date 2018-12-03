@@ -10,7 +10,7 @@ const User = Sequelizer.define(DatabaseConstants.USER_TABLE, {
         autoIncrement: true
     },
     username: { type: Sequelize.STRING(30) },
-    password: { type: Sequelize.STRING(40) },
+    password: { type: Sequelize.STRING(100) },
     email: { type: Sequelize.STRING(255) },
     name: { type: Sequelize.STRING(255) },
     avatar: { type: Sequelize.STRING(500) },
@@ -31,10 +31,10 @@ const User = Sequelizer.define(DatabaseConstants.USER_TABLE, {
         defaultValue: false
     },
     fb_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
     },
     google_id: {
-        type: Sequelize.INTEGER
+        type: Sequelize.BIGINT
     }
 }, {
         underscored: true,

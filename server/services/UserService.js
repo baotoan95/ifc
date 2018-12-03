@@ -22,15 +22,44 @@ const findAll = async () => {
 
 const addUser = async (user) => {
     try {
+        // Validation form
+        if(!user.username || !user.password) {
+            return new GenericResponse(
+                ResponseStatus.BAD_REQUEST,
+                'Username and password are required'
+            )
+        }
+        const existedUser = await userRepository.findOneByUsername(user.username);
+        if(existedUser) {
+            return new GenericResponse(
+                ResponseStatus.BAD_GATEWAY,
+                'Username is existed in the system, please select a new one.'
+            )
+        }
         if(user.password) {
-            user.password = bcrypt.hash(user.password, 10, (err, hash) => {
+            const saltRounds = 10;
+            const hashedPassword = await new Promise((resolve, reject) => {
+                bcrypt.hash(user.password, saltRounds, function(err, hash) {
+                  if (err) reject(err)
+                  resolve(hash)
+                });
+            });
+            try {
+                user.password = hashedPassword;
                 const newUser = await userRepository.add(user);
                 return new GenericResponse(
                     ResponseStatus.ACKNOWLEDGED,
                     null,
                     newUser
                 );
-            });
+            } catch(err) {
+                console.log('addUser', err);
+                return new GenericResponse(
+                    ResponseStatus.INTERNAL_ERROR,
+                    'Server error, please try doing it again!',
+                    err
+                )
+            }
         } else {
             return new GenericResponse(
                 ResponseStatus.BAD_REQUEST,
@@ -38,6 +67,7 @@ const addUser = async (user) => {
             )
         }
     } catch (e) {
+        console.log('addUser', e);
         return new GenericResponse(
             ResponseStatus.INTERNAL_ERROR,
             'Server error, please try doing it again!',
@@ -46,7 +76,31 @@ const addUser = async (user) => {
     }
 }
 
+const findByUsername = async (username) => {
+    return await userRepository.findOneByUsername(username);
+}
+
+const findById = async (userId) => {
+    return await userRepository.findOne(userId);
+}
+
+const addUserWithFacebook = async (fbProfile) => {
+    const existedUser = await userRepository.findByFacebookId(fbProfile.id);
+    if(!existedUser) {
+        const user = {
+            name: fbProfile.displayName,
+            fb_id: fbProfile.id,
+            avatar: fbProfile._json.picture.data.url
+        }
+        return await userRepository.add(user);
+    }
+    return existedUser;
+}
+
 module.exports = {
     findAll,
-    addUser
+    addUser,
+    findByUsername,
+    findById,
+    addUserWithFacebook
 }

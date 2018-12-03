@@ -9,7 +9,8 @@ export default (state = initState, action) => {
         case Actions.SIGN_UP_SUCCESS:
             return {...state, signUpSuccess: true, resMessage: ''}
         case Actions.SIGN_UP_FAILURE:
-            return {...state, signUpSuccess: false, resMessage: action.payload}
+            const errMessage = action.payload.response.data.message;
+            return {...state, signUpSuccess: false, resMessage: errMessage}
         default:
             return state;
     }

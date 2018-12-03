@@ -5,12 +5,12 @@ export const SIGN_UP_SUCCESS = 'SIGN_UP_SUCCESS';
 export const SIGN_UP_FAILURE = 'SIGN_UP_FAILURE';
 
 export const signUp = (user) => {
-    axios.post(SIGN_UP_URL, user)
+    return axios.post(SIGN_UP_URL, user)
         .then(rs => {
             return rs.data;
         })
         .catch(err => {
-            console.log(err);
+            return err;
         });
 }
 
@@ -20,8 +20,9 @@ export const signUpSuccess = () => {
     }
 }
 
-export const signUpFailure = () => {
+export const signUpFailure = (error) => {
     return {
-        type: SIGN_UP_FAILURE
+        type: SIGN_UP_FAILURE,
+        payload: error
     }
 }

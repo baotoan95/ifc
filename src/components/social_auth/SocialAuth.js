@@ -8,16 +8,16 @@ class SocialAuth extends Component {
         const query = this.props.location ? this.props.location.search : "";
         const queryParams = queryString.parse(query);
 
-        console.log(queryParams);
-
         if(!queryParams || !queryParams.type) {
-            this.props.history.push('/');
-            return;
+            // Login failed
+            window.close();
         }
 
         const socialType = queryParams.type;
         if(socialType === 'facebook') {
             this.handleLoginFacebook(queryParams);
+        } else {
+            window.close();
         }
     }
 

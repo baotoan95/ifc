@@ -1,50 +1,80 @@
 const passport = require('passport');
-const FacebookStrategy = require('passport-facebook').Strategy;
+const passportJWT = require('passport-jwt');
+const JWTStratery = passportJWT.Strategy;
+const ExtractJWT = passportJWT.ExtractJwt;
 const appConfig = require('../initilizations/AppConfig').configs;
 const express = require('express');
 const router = express.Router();
+const userService = require('../services/UserService');
+const ResponseStatus = require('../common/ResponseStatus');
+const GenericResponse = require('../common/GenericResponse');
+const jwt = require('jsonwebtoken');
 
+require('../config/local-passport');
+require('../config/facebook-passport');
 
+/** JWT stratery */
+passport.use(new JWTStratery({
+    jwtFromRequest: ExtractJWT.fromAuthHeaderAsBearerToken(),
+    secretOrKey: 'ifc-secret'
+}, async (jwtPayload, cb) => {
+    try {
+        const user = await userService.findById(jwtPayload.id);
+        if(user) {
+            return cb(null, user);
+        }
+    } catch(err) {
+        return cb(err);
+    };
+}));
 passport.serializeUser(function (user, done) {
-    // TODO: save to DB
-    // console.log('serialize', user);
     done(null, user);
 });
 passport.deserializeUser(function (obj, done) {
-    // console.log('deserialize', obj);
     done(null, obj);
 });
-passport.use(new FacebookStrategy({
-    clientID: appConfig.social.facebook.clientId,
-    clientSecret: appConfig.social.facebook.clientSecret,
-    callbackURL: appConfig.social.facebook.callback
-}, function (accessToken, refreshToken, profile, done) {
-    process.nextTick(function () {
-        return done(null, profile);
-    });
-}));
+
 
 /*================= auth routes ==================*/
+
+
+/** local */
+router.post('/login', (req, res, next) => {
+    passport.authenticate('local', {session: false}, (err, user, info) => {
+        if(err || !user) {
+            return res.status(400).json(new GenericResponse(
+                ResponseStatus.NOT_FOUND,
+                info.message
+            ));
+        }
+        req.login(user, {session: false}, (err) => {
+            if(err) {
+                res.send(err);
+            }
+            user.password = 'Hidden';
+            const token = jwt.sign(user.toJSON(), 'ifc-secret', {
+                expiresIn: '1m'
+            });
+            return res.json({
+                message: info.message,
+                user,
+                token
+            });
+        })
+    })(req, res);
+})
+
+/** facebook */
 router.get('/facebook', passport.authenticate('facebook'));
 router.get('/facebook/callback', passport.authenticate('facebook', {
-    failureRedirect: '/login'
+    failureRedirect: appConfig.authentication.loginRedirect
 }), (req, res) => {
-    console.log(req);
-    res.redirect(appConfig.authentication.loginSuccessRedirect + '?type=facebook&userId=' + req.user.id);
+    res.redirect(appConfig.authentication.loginRedirect + '?type=facebook&userId=' + req.user.id);
 });
 
 router.get('/logout', function (req, res) {
     req.logout();
     res.redirect('/');
 });
-
-router.get('/account', ensureAuthenticated, function (req, res) {
-    res.json({ user: req.user });
-});
-
-function ensureAuthenticated(req, res, next) {
-    if (req.isAuthenticated()) { return next(); }
-    res.redirect('/login')
-}
 
 module.exports = router;

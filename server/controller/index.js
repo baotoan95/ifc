@@ -1,3 +1,5 @@
+const passport = require("passport");
+
 module.exports = (app) => {
     app.use('/', require('./HomeController'));
     app.use('/uaa', require('./UAA'));

@@ -19,5 +19,6 @@ const get = async (code) => {
 
 module.exports = {
     add,
-    update
+    update,
+    get
 }

@@ -3,6 +3,7 @@ import { Field, reduxForm } from 'redux-form';
 import './SignUpComponent.scss';
 import { validateEmail } from '../../utils/ValidationUtils';
 import { signUp } from './SignUpActions';
+import { Link } from "react-router-dom";
 
 const validate = (values) => {
     const errors = {};
@@ -31,19 +32,24 @@ class SignUpComponent extends Component {
 
     handleSignUp = (values) => {
         signUp(values).then(rs => {
-            this.props.signUpSuccess();
-        }).catch(err => {
-            this.props.signUpFailure(err.data);
-        });
+            if(rs.statusCode === 200) {
+                this.props.history.push('/sign-in');
+            } else {
+                this.props.signUpFailure(rs);
+            }
+        });;
     }
 
     render() {
-        const { handleSubmit, pristine, submitting, invalid, submitted } = this.props;
+        const { handleSubmit, pristine, submitting, invalid } = this.props;
         return <div className="container">
                     <div className="row">
-                        <div className="col-sm-4 mx-auto">
+                        <div className="col-md-4 col-sm-12 mx-auto">
                             <div className="sign-up">
                                 <h3>Sign Up</h3>
+                                {this.props.signUp.resMessage && <div className="sign-up-notification">
+                                    {this.props.signUp.resMessage}
+                                </div>}
                                 <div className="manually">
                                     <form onSubmit={handleSubmit(this.handleSignUp)}>
                                         <Field 
@@ -70,6 +76,7 @@ class SignUpComponent extends Component {
                                             type="text"
                                             name="name"
                                             />
+                                        Have an account? <Link to="/sign-in">Sign in</Link>
                                         <button type="submit" 
                                             disabled={pristine || submitting || invalid}
                                             className="btn btn-primary">Sign Up</button>
@@ -79,10 +86,6 @@ class SignUpComponent extends Component {
                             </div>
                         </div>
                     </div>
-
-                    {submitted && <div className="sign-up-notification">
-                        Sign up
-                    </div>}
                 </div>
     }
 }

@@ -15,7 +15,7 @@ class App extends Component {
       <div className="app">
         <BrowserRouter>
           <Switch>
-            <Route path='/' exact component={CommunicateContainer} />
+            <Route path='/' exact component={SignInContainer} />
             <Route path='/sign-in' component={SignInContainer} />
             <Route path='/sign-up' component={SignUpContainer} />
             <Route path='/christmas' component={ChristmasContainer} />

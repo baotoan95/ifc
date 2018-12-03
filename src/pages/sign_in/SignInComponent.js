@@ -3,6 +3,20 @@ import './SignInComponent.scss';
 import * as UrlConstants from '../../constants/URLConstants';
 import * as Window from '../../utils/Window';
 import * as WindowEventType from '../../common/WindowEventType';
+import { Field, reduxForm } from 'redux-form';
+import { signIn } from './SignInActions';
+import { Link } from "react-router-dom";
+
+const validate = (values) => {
+    const errors = {};
+    if(!values.username) {
+        errors.username = 'Username is required';
+    }
+    if(!values.password) {
+        errors.password = 'Password is required';
+    }
+    return errors;
+}
 
 class SignInComponent extends Component {
     componentDidMount() {
@@ -13,7 +27,7 @@ class SignInComponent extends Component {
         });
     }
 
-    login = (type) => {
+    loginSocial = (type) => {
         if (type === 'facebook') {
             Window.open(UrlConstants.LOGIN_FACEBOOK_URL, 'Login with Facebook', 500, 500);
         } else if (type === 'google') {
@@ -21,29 +35,63 @@ class SignInComponent extends Component {
         }
     }
 
+    loginLocal = (values) => {
+        signIn(values).then(rs => {
+            if(rs.response && rs.response.status === 400) {
+                this.props.signInFailure(rs.response.data.message);
+            } else {
+                console.log(rs);
+                localStorage.setItem('access_token', rs.token);
+                this.props.history.push('/christmas');
+            }
+        });
+    }
+
+    renderFormControl = ({ input, label, type, meta: { touched, error, warning } }) => {
+        return <div className="form-group">
+                    <label htmlFor={label}>{label}</label>
+                    <input {...input} type={type} className="form-control" id={label} />
+                    {touched && error && <small className="form-text text-muted">{error}</small>}
+                </div>
+    }
+
+    renderRememberCheckbox = ({ input, label, type, meta: { touched, error, warning } }) => {
+        return <div className="form-check">
+                    <input {...input} type={type} className="form-check-input" id={label} />
+                    <label htmlFor={label}>{label}</label>
+                </div>
+    }
+
     render() {
+        const { handleSubmit, pristine, submitting, invalid } = this.props;
+
         return <div className="container">
             <div className="row">
-                <div className="col-sm-4 mx-auto">
+                <div className="col-md-4 col-sm-12 mx-auto">
                     <div className="sign-in">
                         <h3>Sign In</h3>
+                        {this.props.signIn.resMessage && <div className="sign-in-notification">
+                            {this.props.signIn.resMessage}
+                        </div>}
                         <div className="manually">
-                            <form>
-                                <div className="form-group">
-                                    <label htmlFor="email">Email</label>
-                                    <input type="email" className="form-control" id="email" />
-                                    <small id="emailHelp" className="form-text text-muted">Something happen</small>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="email">Password</label>
-                                    <input type="email" className="form-control" id="password" />
-                                    <small id="passwordHelp" className="form-text text-muted">Something happen</small>
-                                </div>
-                                <div className="form-check">
-                                    <input type="checkbox" className="form-check-input" id="remember" />
-                                    <label className="form-check-label" htmlFor="remember">Remember me</label>
-                                </div>
-                                <button type="submit" className="btn btn-primary">Sign In</button>
+                            <form onSubmit={handleSubmit(this.loginLocal)}>
+                                <Field
+                                    component={this.renderFormControl}
+                                    label="Username"
+                                    type="text"
+                                    name="username"/>
+                                <Field
+                                    component={this.renderFormControl}
+                                    label="Password"
+                                    type="password"
+                                    name="password"/>
+                                <Field
+                                    component={this.renderRememberCheckbox}
+                                    label="Remember me"
+                                    type="checkbox"
+                                    name="remember"/>
+                                <button type="submit" disabled={pristine || submitting || invalid}
+                                    className="btn btn-primary">Sign In</button>
                             </form>
                         </div>
                         <div className="div">
@@ -51,8 +99,11 @@ class SignInComponent extends Component {
                             <span>Or with social network</span>
                         </div>
                         <div className="social">
-                            <button className="facebook" onClick={() => this.login('facebook')}><i className="fab fa-facebook-f"></i> Facebook</button>
-                            <button className="google" onClick={() => this.login('google')}><i className="fab fa-google"></i> Google</button>
+                            <button className="facebook" onClick={() => this.loginSocial('facebook')}><i className="fab fa-facebook-f"></i> Facebook</button>
+                            <button className="google" onClick={() => this.loginSocial('google')}><i className="fab fa-google"></i> Google</button>
+                        </div>
+                        <div className="driver">
+                            Don't have account yet. <Link to="/sign-up">Sign up</Link>
                         </div>
                     </div>
                 </div>
@@ -61,4 +112,7 @@ class SignInComponent extends Component {
     }
 }
 
-export default SignInComponent;
+export default reduxForm({
+    form: 'sign-in',
+    validate
+})(SignInComponent);
