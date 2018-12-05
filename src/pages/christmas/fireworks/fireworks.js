@@ -293,8 +293,10 @@ class Particle {
     context.fill();
 
     // draw in the images
-    context.drawImage(fireworkCanvas,
-      this.gridX, this.gridY, 12, 12,
+    if(!document.getElementById('small-glow')) {
+      return;
+    } 
+    context.drawImage(fireworkCanvas, this.gridX, this.gridY, 12, 12,
       x - 6, y - 6, 12, 12);
     context.drawImage(document.getElementById('small-glow'), x - 3, y - 3);
 

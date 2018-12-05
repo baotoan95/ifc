@@ -25,5 +25,10 @@ export const backgroundSoundChanged = (url) => {
 }
 
 export const create = async (wish) => {
-    return await axios.post(URLs.WISHES_URL, wish);
+    const config = {
+        headers: {
+            Authorization: 'Bearer ' + localStorage.getItem('access_token')
+        }
+    }
+    return await axios.post(URLs.WISHES_URL, wish, config);
 }

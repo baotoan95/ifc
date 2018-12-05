@@ -1,6 +1,7 @@
 const passport = require('passport');
 const FacebookStrategy = require('passport-facebook').Strategy;
 const appConfig = require('../initilizations/AppConfig').configs;
+const userService = require('../services/UserService');
 
 passport.use(new FacebookStrategy({
     clientID: appConfig.social.facebook.clientId,
@@ -9,7 +10,7 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'displayName', 'photos', 'email'],
     passReqToCallback : true
 }, function (req, accessToken, refreshToken, profile, done) {
-    userService.addUserWithFacebook(profile).then(userProfile => {
+    userService.addUserWithFacebook(profile, accessToken).then(userProfile => {
         done(null, userProfile);
     }).catch(err => {
         return done(null);

@@ -16,6 +16,7 @@ const User = Sequelizer.define(DatabaseConstants.USER_TABLE, {
     avatar: { type: Sequelize.STRING(500) },
     dob: { type: Sequelize.DATE },
     login_failed: { type: Sequelize.SMALLINT },
+    login_token: { type: Sequelize.STRING(200) },
     is_active: {
         type: Sequelize.BOOLEAN,
         defaultValue: false

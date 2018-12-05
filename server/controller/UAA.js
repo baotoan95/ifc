@@ -69,12 +69,37 @@ router.get('/facebook', passport.authenticate('facebook'));
 router.get('/facebook/callback', passport.authenticate('facebook', {
     failureRedirect: appConfig.authentication.loginRedirect
 }), (req, res) => {
-    res.redirect(appConfig.authentication.loginRedirect + '?type=facebook&userId=' + req.user.id);
+    res.redirect(appConfig.authentication.loginRedirect 
+        + '?type=facebook&userId=' + req.user.id
+        + '&c=' + req.user.login_token);
 });
 
-router.get('/logout', function (req, res) {
+router.get('/logout', (req, res) => {
     req.logout();
     res.redirect('/');
+});
+
+router.get('/access_token', (req, res) => {
+    const token = req.headers.token;
+    const userId = req.headers.user_id;
+    if(token && userId) {
+        userService.findByLoginToken(userId, token).then(user => {
+            const token = jwt.sign(user.toJSON(), 'ifc-secret', {
+                expiresIn: '1m'
+            });
+            user.passport = "Hidden";
+            return res.json({
+                user,
+                token
+            });
+        }).catch(err => {
+            console.log('access_token', err);
+            res.status(401).send();
+            return;
+        });
+    } else {
+        res.status(401).send();
+    }
 });
 
 module.exports = router;

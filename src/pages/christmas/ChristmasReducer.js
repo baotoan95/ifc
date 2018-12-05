@@ -4,7 +4,8 @@ import ChristmasContainer from './ChristmasContainer';
 let initState = {
     showConfigPanel: false,
     showGetLinkModal: false,
-    wishLink: ''
+    wishLink: '',
+    modalType: 'normal'
 }
 export default (state = initState, action) => {
     switch(action.type) {
@@ -14,6 +15,8 @@ export default (state = initState, action) => {
             return {...state, showGetLinkModal: !state.showGetLinkModal};
         case ChristmasAction.ADD_WISH_SUCCESS:
             return {...state, wishLink: action.payload, showConfigPanel: !state.showConfigPanel, showGetLinkModal: !state.showGetLinkModal};
+        case ChristmasAction.SET_MODAL_TYPE:
+            return {...state, modalType: action.payload};
         default:
             return state;
     }

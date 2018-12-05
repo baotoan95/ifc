@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './Christmas.scss';
+import { isAuthenticated } from '../../utils/Authenticator';
 import Santa from './santa/Santa';
 import Marquee from './marquee/Marquee';
 import TypingContainer from './typing/TypingContainer';
@@ -23,9 +24,11 @@ import canvas_background from '../../assets/images/bg.png';
 import sound_background from '../../assets/sounds/WeWishYouAMerryChristmasBeat-Unk_ujah.mp3';
 
 import Fireworks from './fireworks/fireworks';
+import UnAuthenticated from './modals/UnAuthenticated/UnAuthenticatedModal';
 
 class Christmas extends Component {
     firework = null;
+    fireMaker = undefined;
 
     componentDidMount() {
         const bigGlow = document.createElement('img');
@@ -40,13 +43,18 @@ class Christmas extends Component {
             background: background
         };
 
-        setTimeout(() => {
+        this.fireMaker = setTimeout(() => {
             this.firework = new Fireworks(Library);
             this.firework.initialize();
             window.onresize = () => {
                 this.firework.onWindowResize();
             };
         }, 1000);
+    }
+
+    componentWillUnmount() {
+        clearTimeout(this.fireMaker);
+        document.getElementsByTagName('canvas')[0].remove();
     }
 
     handleCreateSuccess = (code) => {
@@ -56,6 +64,34 @@ class Christmas extends Component {
     copyLink = (e) => {
         e.target.select();
         document.execCommand('copy');
+    }
+
+    toggleConfigPanel = () => {
+        if(isAuthenticated()) {
+            this.props.toggleConfigPanel();
+        } else {
+            this.props.setModalType('LOGIN_REQUIRED');
+        }
+    }
+
+    cancelModal = () => {
+        this.props.setModalType('none');
+    }
+
+    linkToLogin = () => {
+        this.props.setModalType('none');
+        this.props.history.push('/sign-in');
+    }
+
+    renderModal() {
+        switch(this.props.modalType) {
+            case 'GET_LINK':
+                return;
+            case 'LOGIN_REQUIRED':
+                return <UnAuthenticated cancel={this.cancelModal} login={this.linkToLogin}/>;
+            default:
+                return;
+        }
     }
 
     render() {
@@ -68,7 +104,7 @@ class Christmas extends Component {
             </aside>
 
             <ConfigPanelContainer callback={this.handleCreateSuccess}
-                display={this.props.christmas.showConfigPanel} toggle={this.props.toggleConfigPanel}/>
+                display={this.props.christmas.showConfigPanel} toggle={this.toggleConfigPanel}/>
 
             <div id={'content' + (this.props.christmas.showConfigPanel ? ' scale' : '')}>
                 <img alt="lights" className="lights" src={image_lights2} />
@@ -104,6 +140,7 @@ class Christmas extends Component {
                     </div>
                 </div>
             </div>}
+            {this.renderModal()};
         </div>
     }
 }

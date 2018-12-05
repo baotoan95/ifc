@@ -84,17 +84,35 @@ const findById = async (userId) => {
     return await userRepository.findOne(userId);
 }
 
-const addUserWithFacebook = async (fbProfile) => {
+const addUserWithFacebook = async (fbProfile, accessToken) => {
     const existedUser = await userRepository.findByFacebookId(fbProfile.id);
     if(!existedUser) {
         const user = {
             name: fbProfile.displayName,
             fb_id: fbProfile.id,
-            avatar: fbProfile._json.picture.data.url
+            avatar: fbProfile._json.picture.data.url,
+            login_token: accessToken
         }
         return await userRepository.add(user);
+    } else {
+        existedUser.dataValues.login_token = accessToken;
+        await userRepository.update(existedUser.dataValues);
+        return existedUser.dataValues;
     }
-    return existedUser;
+}
+
+const findByLoginToken = async (userId, loginToken) => {
+    try {
+        const user = await userRepository.findByLoginToken(userId, loginToken);
+        if(user) {
+            user.login_token = null;
+            await userRepository.update(user.dataValues);
+            return user;
+        }
+    } catch (err) {
+        console.log('findByLoginToken', err);
+        return null;
+    }
 }
 
 module.exports = {
@@ -102,5 +120,6 @@ module.exports = {
     addUser,
     findByUsername,
     findById,
-    addUserWithFacebook
+    addUserWithFacebook,
+    findByLoginToken
 }

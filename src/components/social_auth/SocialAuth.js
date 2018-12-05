@@ -24,7 +24,8 @@ class SocialAuth extends Component {
     handleLoginFacebook(query) {
         window.opener.dispatchEvent(new CustomEvent(WindowEventType.LOGIN_FACEBOOK, {
             detail: {
-                userId: query.userId
+                userId: query.userId,
+                loginToken: query.c
             }
         }));
         window.close();

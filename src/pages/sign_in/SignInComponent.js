@@ -4,8 +4,9 @@ import * as UrlConstants from '../../constants/URLConstants';
 import * as Window from '../../utils/Window';
 import * as WindowEventType from '../../common/WindowEventType';
 import { Field, reduxForm } from 'redux-form';
-import { signIn } from './SignInActions';
+import { signIn, fetchAuthInfo } from './SignInActions';
 import { Link } from "react-router-dom";
+import { saveUserInfo } from '../../utils/Authenticator';
 
 const validate = (values) => {
     const errors = {};
@@ -22,8 +23,15 @@ class SignInComponent extends Component {
     componentDidMount() {
         window.addEventListener(WindowEventType.LOGIN_FACEBOOK, e => {
             // TODO: check user profile and complete profile if necessary
-            localStorage.setItem('userId', e.detail.userId);
-            this.props.history.push('/christmas');
+            console.log(e)
+            fetchAuthInfo(e.detail.userId, e.detail.loginToken).then(res => {
+                const authInfo = {
+                    userId: res.user.id,
+                    token: res.token
+                }
+                saveUserInfo(authInfo);
+                this.props.history.push('/christmas');
+            })
         });
     }
 
@@ -40,8 +48,10 @@ class SignInComponent extends Component {
             if(rs.response && rs.response.status === 400) {
                 this.props.signInFailure(rs.response.data.message);
             } else {
-                console.log(rs);
-                localStorage.setItem('access_token', rs.token);
+                saveUserInfo({
+                    userId: rs.user.id,
+                    token: rs.token
+                });
                 this.props.history.push('/christmas');
             }
         });

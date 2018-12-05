@@ -1,6 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const wishService = require('../services/WishService');
+const passport = require('passport');
+
+router.use(passport.authenticate('jwt', {session: false}));
 
 router.post('/', (req, res) => {
     const wish = {

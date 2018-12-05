@@ -30,10 +30,42 @@ const findByFacebookId = async (fbId) => {
     });
 }
 
+const findByLoginToken = async (userId, loginToken) => {
+    return await User.findOne({
+        where: {
+            id: userId,
+            login_token: loginToken
+        }
+    })
+}
+
+const update = async (user) => {
+    const userId = user.id;
+    return await User.update({
+        username: user.username,
+        password: user.password,
+        email: user.email,
+        name: user.name,
+        avatar: user.avatar,
+        dob: user.dob,
+        login_failed: user.login_failed,
+        login_token: user.login_token,
+        is_active: user.is_active,
+        is_admin: user.is_admin,
+        reset_password_token: user.reset_password_token,
+        is_confirm: user.is_confirm,
+        is_banned: user.is_banned,
+        fb_id: user.fb_id,
+        google_id: user.google_id
+    }, {where: {id: userId}});
+}
+
 module.exports = {
     findAll,
     add,
     findOneByUsername,
     findOne,
-    findByFacebookId
+    findByFacebookId,
+    findByLoginToken,
+    update
 }
