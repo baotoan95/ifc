@@ -9,8 +9,8 @@ const Wish = Sequelizer.define(DatabaseConstants.WISH_TABLE, {
         allowNull: false,
         autoIncrement: true
     },
-    message: { type: Sequelize.STRING(30) },
-    background_sound: { type: Sequelize.STRING(40) },
+    message: { type: Sequelize.STRING },
+    background_sound: { type: Sequelize.STRING },
     user_id: { type: Sequelize.INTEGER },
     code: { type: Sequelize.STRING(50) }
 }, {

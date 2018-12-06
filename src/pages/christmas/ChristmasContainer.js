@@ -8,7 +8,8 @@ function mapStateToProps(state) {
         christmas: state.christmas,
         showGetLinkModal: state.christmas.showGetLinkModal,
         wishLink: state.christmas.wishLink,
-        modalType: state.christmas.modalType
+        modalType: state.christmas.modalType,
+        wish: state.christmas.wish
     }
 }
 
@@ -17,7 +18,8 @@ function mapDispatchToProps(dispatch) {
         toggleConfigPanel: actions.toggleConfigPanel,
         toggleGetLinkModal: actions.toggleGetLinkModal,
         addWishSuccess: actions.addWishSuccess,
-        setModalType: actions.setModalType
+        setModalType: actions.setModalType,
+        fetchWishSuccess: actions.fetchWishSuccess
     }, dispatch);
 }
 

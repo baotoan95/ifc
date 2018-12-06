@@ -5,7 +5,8 @@ let initState = {
     showConfigPanel: false,
     showGetLinkModal: false,
     wishLink: '',
-    modalType: 'normal'
+    modalType: 'normal',
+    wish: {}
 }
 export default (state = initState, action) => {
     switch(action.type) {
@@ -17,6 +18,8 @@ export default (state = initState, action) => {
             return {...state, wishLink: action.payload, showConfigPanel: !state.showConfigPanel, showGetLinkModal: !state.showGetLinkModal};
         case ChristmasAction.SET_MODAL_TYPE:
             return {...state, modalType: action.payload};
+        case ChristmasAction.GET_WISH_SUCCESS:
+            return {...state, wish: action.payload}
         default:
             return state;
     }

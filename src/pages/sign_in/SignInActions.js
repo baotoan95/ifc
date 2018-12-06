@@ -28,10 +28,10 @@ export const fetchAuthInfo = (userId, loginToken) => {
     }
     return axios.get(FETCH_AUTH_INFO, config)
         .then(rs => {
-            console.log(rs);
             return rs.data;
         })
         .catch(err => {
+            console.log('fetchAuthInfo', err);
             return err;
         });
 }

@@ -4,7 +4,7 @@ import './Typing.scss';
 class Typing extends Component {
     constructor(props) {
         super(props);
-        this.props.initMessage();
+        this.props.initMessage(this.props.content);
     }
     
     componentDidMount() {
@@ -18,6 +18,12 @@ class Typing extends Component {
                 }
             }
         }, 50);
+    }
+
+    componentDidUpdate(nextProps) {
+        if(this.props.content !== nextProps.content) {
+            this.props.initMessage(this.props.content);
+        }
     }
 
     render() {

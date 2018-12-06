@@ -22,8 +22,6 @@ const validate = (values) => {
 class SignInComponent extends Component {
     componentDidMount() {
         window.addEventListener(WindowEventType.LOGIN_FACEBOOK, e => {
-            // TODO: check user profile and complete profile if necessary
-            console.log(e)
             fetchAuthInfo(e.detail.userId, e.detail.loginToken).then(res => {
                 const authInfo = {
                     userId: res.user.id,

@@ -13,17 +13,4 @@ router.get('/', (req, res) => {
     })
 })
 
-router.post('/', (req, res) => {
-    const user = {
-        username: req.body.username,
-        password: req.body.password,
-        email: req.body.email,
-        name: req.body.name
-    }
-    userService.addUser(user).then(rs => {
-        res.statusCode = rs.statusCode;
-        res.send(rs);
-    });
-})
-
 module.exports = router;

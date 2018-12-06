@@ -9,11 +9,10 @@ const update = async (wish) => {
 }
 
 const get = async (code) => {
-    return await Wish.findAll({
+    return await Wish.findOne({
         where: {
             code: code
-        },
-        limit: 1
+        }
     })
 }
 

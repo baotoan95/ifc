@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import './Christmas.scss';
+import queryString from 'query-string';
 import { isAuthenticated } from '../../utils/Authenticator';
 import Santa from './santa/Santa';
 import Marquee from './marquee/Marquee';
 import TypingContainer from './typing/TypingContainer';
 import SnowStorm from './snow/SnowStorm';
 import ConfigPanelContainer from './config_panel/ConfigPanelContainer';
+import { fetchWish } from './ChristmasAction';
 
 import image_lights2 from '../../assets/images/lights2.gif';
 import image_topLeft from '../../assets/images/top-left.png';
@@ -50,6 +52,15 @@ class Christmas extends Component {
                 this.firework.onWindowResize();
             };
         }, 1000);
+
+        const wishId = queryString.parse(this.props.location.search).w;
+        if(wishId) {
+            fetchWish(wishId).then(res => {
+                if(res.statusCode === 200) {
+                    this.props.fetchWishSuccess(res.data);
+                }
+            })
+        }
     }
 
     componentWillUnmount() {
@@ -67,10 +78,10 @@ class Christmas extends Component {
     }
 
     toggleConfigPanel = () => {
-        if(isAuthenticated()) {
-            this.props.toggleConfigPanel();
-        } else {
+        if(!isAuthenticated()) {
             this.props.setModalType('LOGIN_REQUIRED');
+        } else {
+            this.props.toggleConfigPanel();
         }
     }
 
@@ -112,7 +123,7 @@ class Christmas extends Component {
                 <Marquee />
                 <img alt="top-left" className="top-left" src={image_topLeft} />
                 <img alt="top-right" className="top-right" src={image_topRight} />
-                {!this.props.christmas.showConfigPanel && <TypingContainer />}
+                {!this.props.christmas.showConfigPanel && <TypingContainer content={this.props.wish.message}/>}
                 <img alt="footer" className="footer" src={image_footer} />
                 <img alt="pine1" className="pine1" src={image_pine1} />
                 <img alt="pine2" className="pine2" src={image_pine2} />
@@ -140,7 +151,7 @@ class Christmas extends Component {
                     </div>
                 </div>
             </div>}
-            {this.renderModal()};
+            {this.renderModal()}
         </div>
     }
 }

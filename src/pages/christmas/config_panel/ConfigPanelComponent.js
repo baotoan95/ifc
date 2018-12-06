@@ -38,6 +38,11 @@ class ConfigPanelComponent extends Component {
                 </div>
     }
 
+    signOut = () => {
+        this.props.toggle();
+        localStorage.clear();
+    }
+
     render() {
         const { handleSubmit, pristine, reset, submitting, invalid } = this.props;
         return (
@@ -58,6 +63,7 @@ class ConfigPanelComponent extends Component {
                             <div className="form-group">
                                 <button className="btn btn-primary" type="submit" disabled={pristine || submitting || invalid}>Note</button>
                                 <button className="btn btn-primary pull-right" type="button" onClick={reset}>Reset</button>
+                                <button className="btn btn-danger" type="button" onClick={this.signOut}>Sign Out</button>
                             </div>
                         </form>
                     </div>

@@ -7,16 +7,19 @@ import { Link } from "react-router-dom";
 
 const validate = (values) => {
     const errors = {};
-    if(!values.username) {
+    if(!values.username.trim()) {
         errors.username = 'Username is required';
     }
-    if(!values.password) {
+    if(!values.password.trim()) {
         errors.password = 'Password is required';
     }
     if(!values.email) {
         errors.email = 'Email is required';
     } else if(!validateEmail(values.email)) {
         errors.email = 'Email is invalid';
+    }
+    if(!values.name.trim()) {
+        errors.name = 'Name is required';
     }
     return errors;
 }

@@ -21,7 +21,7 @@ passport.use(new JWTStratery({
     try {
         const user = await userService.findById(jwtPayload.id);
         if(user) {
-            return cb(null, user);
+            return cb(null, user.dataValues);
         }
     } catch(err) {
         return cb(err);
@@ -101,5 +101,17 @@ router.get('/access_token', (req, res) => {
         res.status(401).send();
     }
 });
+
+router.post('/sign-up', (req, res) => {
+    const user = {
+        username: req.body.username,
+        password: req.body.password,
+        email: req.body.email,
+        name: req.body.name
+    }
+    userService.addUser(user).then(rs => {
+        res.status(rs.statusCode).send(rs);
+    });
+})
 
 module.exports = router;

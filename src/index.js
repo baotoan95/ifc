@@ -8,11 +8,14 @@ import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 
 import App from './main/App';
+import HttpInterceptor from './common/HttpInterceptor';
 
 const store = createStore(
     reducers,
     applyMiddleware(thunk)
 );
+
+HttpInterceptor.setupInterceptors(store);
 
 ReactDOM.render(
     <Provider store={store}>

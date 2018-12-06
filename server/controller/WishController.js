@@ -2,13 +2,13 @@ const express = require('express');
 const router = express.Router();
 const wishService = require('../services/WishService');
 const passport = require('passport');
+const jwt = require('jsonwebtoken');
 
-router.use(passport.authenticate('jwt', {session: false}));
-
-router.post('/', (req, res) => {
+router.post('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     const wish = {
         message: req.body.message,
-        background_sound: req.body.background_sound
+        background_sound: req.body.background_sound || "https://www.nhaccuatui.com/mh/auto/I2jtpWcn3M",
+        user_id: req.user.id
     }
     wishService.addWish(wish).then(rs => {
         res.send(rs);
@@ -18,7 +18,7 @@ router.post('/', (req, res) => {
     })
 })
 
-router.put('/', (req, res) => {
+router.put('/', passport.authenticate('jwt', {session: false}), (req, res) => {
     const wish = {
         message: req.body.message,
         background_sound: req.body.background_sound
