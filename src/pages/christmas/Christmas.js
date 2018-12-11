@@ -8,6 +8,7 @@ import TypingContainer from './typing/TypingContainer';
 import SnowStorm from './snow/SnowStorm';
 import ConfigPanelContainer from './config_panel/ConfigPanelContainer';
 import { fetchWish } from './ChristmasAction';
+import { BASE_URL } from '../../constants/URLConstants';
 
 import image_lights2 from '../../assets/images/lights2.gif';
 import image_topLeft from '../../assets/images/top-left.png';
@@ -22,8 +23,6 @@ import image_angel from '../../assets/images/angel.gif';
 import image_big_glow from '../../assets/images/big-glow.png';
 import image_small_glow from '../../assets/images/small-glow.png';
 import canvas_background from '../../assets/images/bg.png';
-
-import sound_background from '../../assets/sounds/WeWishYouAMerryChristmasBeat-Unk_ujah.mp3';
 
 import Fireworks from './fireworks/fireworks';
 import UnAuthenticated from './modals/UnAuthenticated/UnAuthenticatedModal';
@@ -134,20 +133,20 @@ class Christmas extends Component {
                 <img alt="angel2" className="angel2" src={image_angel} />
                 <Santa />
             </div>
-            {/* {!this.props.christmas.showConfigPanel && <iframe type="audio/mpeg" title="Background audio" src={sound_background} allow="autoplay" id="audio" style={{ display: 'none' }} />} */}
+            {!this.props.christmas.showConfigPanel && <iframe type="audio/mpeg" title="Background audio" src={this.props.wish.background_sound} allow="autoplay" id="audio" style={{ display: 'none' }} />}
             {/* <SnowStorm /> */}
             {this.props.showGetLinkModal && <div className="modal-container">
                 <div className="modal">
                     <div className="modal-title">Create successfully</div>
                     <div className="modal-content">
-                        <p>Click to link below to copy and send to your love:</p>
+                        <p>Click the link below to copy and send to your lover:</p>
                         <input type="text" readOnly={true} ref="link" 
                         onClick={this.copyLink}
                         className="form-control" 
-                        value={"http://localhost:3000/christmas?w=" + this.props.wishLink} />
+                        value={BASE_URL + "/christmast?w=" + this.props.wishLink} />
                     </div>
                     <div className="modal-actions">
-                        <button className="btn btn-primary" onClick={this.props.toggleGetLinkModal}>Ok</button>
+                        <button className="btn btn-primary" onClick={() => window.location = BASE_URL + "/christmas?w=" + this.props.wishLink}>Ok</button>
                     </div>
                 </div>
             </div>}

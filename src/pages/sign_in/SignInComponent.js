@@ -21,16 +21,23 @@ const validate = (values) => {
 
 class SignInComponent extends Component {
     componentDidMount() {
-        window.addEventListener(WindowEventType.LOGIN_FACEBOOK, e => {
-            fetchAuthInfo(e.detail.userId, e.detail.loginToken).then(res => {
-                const authInfo = {
-                    userId: res.user.id,
-                    token: res.token
-                }
-                saveUserInfo(authInfo);
-                this.props.history.push('/christmas');
-            })
-        });
+        window.addEventListener(WindowEventType.LOGIN_FACEBOOK, this.fetchAuthInfo);
+    }
+
+    fetchAuthInfo = (e) => {
+        fetchAuthInfo(e.detail.userId, e.detail.loginToken).then(res => {
+            const authInfo = {
+                userId: res.user.id,
+                token: res.token
+            }
+            saveUserInfo(authInfo);
+            this.props.history.push('/christmas');
+        })
+    }
+
+    componentWillUnmount() {
+        window.removeEventListener(WindowEventType.LOGIN_FACEBOOK, this.fetchAuthInfo);
+        this.props.signInFailure('');
     }
 
     loginSocial = (type) => {
@@ -108,7 +115,7 @@ class SignInComponent extends Component {
                         </div>
                         <div className="social">
                             <button className="facebook" onClick={() => this.loginSocial('facebook')}><i className="fab fa-facebook-f"></i> Facebook</button>
-                            <button className="google" onClick={() => this.loginSocial('google')}><i className="fab fa-google"></i> Google</button>
+                            {/* <button className="google" onClick={() => this.loginSocial('google')}><i className="fab fa-google"></i> Google</button> */}
                         </div>
                         <div className="driver">
                             Don't have account yet. <Link to="/sign-up">Sign up</Link>

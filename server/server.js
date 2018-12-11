@@ -18,7 +18,7 @@ app.use(passport.initialize());
 //     saveUninitialized: true
 // }));
 // app.use(passport.session());
-var server = app.listen(8080, () => {
+var server = app.listen(process.env.PORT || 8080, () => {
     console.log('Server is running on port ' + server.address().port);
 });
 

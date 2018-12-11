@@ -7,6 +7,7 @@
     "node-sass": "^4.9.4",
     "query-string": "^6.2.0",
     "react": "^16.6.0",
+    "react-ckeditor-component": "^1.1.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-dom": "^16.6.0",
     "react-redux": "^5.1.0",

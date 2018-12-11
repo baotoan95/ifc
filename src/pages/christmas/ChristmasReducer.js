@@ -1,12 +1,15 @@
 import * as ChristmasAction from './ChristmasAction';
-import ChristmasContainer from './ChristmasContainer';
+import sound_background from '../../assets/sounds/WeWishYouAMerryChristmasBeat-Unk_ujah.mp3';
 
 let initState = {
     showConfigPanel: false,
     showGetLinkModal: false,
     wishLink: '',
     modalType: 'normal',
-    wish: {}
+    wish: {
+        message: '',
+        background_sound: sound_background
+    }
 }
 export default (state = initState, action) => {
     switch(action.type) {

@@ -27,3 +27,12 @@ body {
 .pull-right {
   float: right;
 }
+
+@media only screen and (max-width: 720px) {
+  .container {
+    height: 100vh !important;
+    padding: 0 !important;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  }
+}

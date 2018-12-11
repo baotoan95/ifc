@@ -136,24 +136,25 @@ body {
 		height: 100%;
 		background: #000000c2;
 		z-index: 9999;
+		display: flex;
+		justify-content: center;
+		align-items: center;
 
 		.modal {
 			width: 45%;
-			height: 28%;
-			position: absolute;
-			top: -15%;
-			left: 0;
-			right: 0;
-			margin: auto;
 			background: #f3f3f3;
-			display: block;
 			border-radius: 3px;
 			display: flex;
 			flex-direction: column;
+			top: auto;
+			left: auto;
+			right: auto;
+			bottom: auto;
+			position: relative;
 
 			.modal-title {
 				color: black;
-				padding: 5px;
+				padding: 5px 13px;
 			}
 
 			.modal-content {
@@ -161,6 +162,7 @@ body {
 				border-radius: 0;
 				color: black;
 				padding: 5px;
+				line-height: 20px;
 				.form-control {
 					background: transparent !important;
 					color: gray !important;
@@ -172,5 +174,11 @@ body {
 				text-align: right;
 			}
 		}
+	}
+}
+
+@media only screen and (max-width: 720px) {
+    .modal {
+		width: 90% !important;
 	}
 }

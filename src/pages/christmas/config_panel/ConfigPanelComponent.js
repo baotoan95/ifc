@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './ConfigPanelComponent.scss';
 import { Field, reduxForm } from 'redux-form';
 import { create } from './ConfigPanelAction';
+import CKEditor from "react-ckeditor-component";
 
 const validate = (values) => {
     const errors = {};
@@ -14,6 +15,10 @@ const validate = (values) => {
 }
 
 class ConfigPanelComponent extends Component {
+    constructor(props) {
+        super(props);
+    }
+
     typing = (e) => {
         this.props.typing(e.target.value);
     }
@@ -46,7 +51,7 @@ class ConfigPanelComponent extends Component {
     render() {
         const { handleSubmit, pristine, reset, submitting, invalid } = this.props;
         return (
-            <div className="control-panel-wrapper">
+            <div className="control-panel-wrapper col-md-12">
                 <div className={'config-panel' + (this.props.display ? ' show' : ' hidden')}>
                     <div className="toggle" onClick={this.props.toggle}>|||</div>
                     <div className="panel">
@@ -59,9 +64,10 @@ class ConfigPanelComponent extends Component {
                             </div>
                             <Field name="message"
                                 component={this.renderMessageField}
-                                onChange={this.typing}/>
+                                onChange={this.typing}
+                                label="Message"/>
                             <div className="form-group">
-                                <button className="btn btn-primary" type="submit" disabled={pristine || submitting || invalid}>Note</button>
+                                <button className="btn btn-primary" type="submit" disabled={pristine || submitting || invalid}>Save</button>
                                 <button className="btn btn-primary pull-right" type="button" onClick={reset}>Reset</button>
                                 <button className="btn btn-danger" type="button" onClick={this.signOut}>Sign Out</button>
                             </div>
@@ -69,7 +75,7 @@ class ConfigPanelComponent extends Component {
                     </div>
                 </div>
                 {this.props.display && <div className="typo" dangerouslySetInnerHTML={{__html: this.props.config.message}}></div>}
-                {this.props.config.backgroundSound && <iframe type="audio/mpeg" title="Background audio" src={this.props.config.backgroundSound} allow="autoplay" id="audio" style={{ display: 'none' }} />}
+                {this.props.display && this.props.config.backgroundSound && <iframe type="audio/mpeg" title="Background audio" src={this.props.config.backgroundSound} allow="autoplay" id="audio" style={{ display: 'none' }} />}
             </div>
         )
     }

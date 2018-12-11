@@ -1,11 +1,11 @@
 .control-panel-wrapper {
     .config-panel {
         height: 100%;
-        width: 30%;
+        width: 40%;
         position: fixed;
         z-index: 1;
         top: 0;
-        left: -30%;
+        left: -40%;
         background: #111;
         transition: left 1s;
         display: block !important;
@@ -43,6 +43,10 @@
             }
         }
 
+        .btn {
+            box-shadow: none !important;
+        }
+
         .btn-danger {
             margin-top: 10px;
             width: 100%;
@@ -61,5 +65,36 @@
         text-align: center;
         font-size: 1.5vw;
         font-family: 'Rakkas', serif;
+    }
+}
+
+@media only screen and (max-width: 720px) {
+    .control-panel-wrapper {
+        .config-panel {
+            width: 100%;
+            .toggle {
+                padding: 5px 10px;
+                position: absolute;
+                right: 0;
+                top: 0;
+                margin: 0;
+                height: 30px;
+                display: block;
+                background: darkblue;
+                cursor: pointer;
+            }
+            &.hidden {
+                .toggle {
+                    right: -30px;
+                    top: 0;
+                    bottom: 0;
+                    margin: auto;
+                }
+                left: -100%;
+            }
+            &.show {
+                overflow-y: auto;
+            }
+        }
     }
 }

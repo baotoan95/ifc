@@ -7,10 +7,11 @@ class UnAuthenticated extends Component {
                     <div className="modal">
                         <div className="modal-title">Login required</div>
                         <div className="modal-content">
-                            <p>In order to use this feature, please login!</p>
+                            <p>This feature allows you change your own message and background music.</p>
+                            <p>In order to use this feature. Please sign in!!!</p>
                         </div>
                         <div className="modal-actions">
-                            <button className="btn btn-success" onClick={this.props.login}>Login</button>
+                            <button className="btn btn-success" onClick={this.props.login}>Sign In</button>
                             <button className="btn btn-danger" onClick={this.props.cancel}>Cancel</button>
                         </div>
                     </div>

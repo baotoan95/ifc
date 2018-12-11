@@ -7,18 +7,18 @@ import { Link } from "react-router-dom";
 
 const validate = (values) => {
     const errors = {};
-    if(!values.username.trim()) {
+    if(!values.username || !values.username.trim()) {
         errors.username = 'Username is required';
     }
-    if(!values.password.trim()) {
+    if(!values.password || !values.password.trim()) {
         errors.password = 'Password is required';
     }
-    if(!values.email) {
+    if(!values.email || !values.email.trim()) {
         errors.email = 'Email is required';
     } else if(!validateEmail(values.email)) {
         errors.email = 'Email is invalid';
     }
-    if(!values.name.trim()) {
+    if(!values.name || !values.name.trim()) {
         errors.name = 'Name is required';
     }
     return errors;

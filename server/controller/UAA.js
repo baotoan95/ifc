@@ -35,6 +35,12 @@ passport.deserializeUser(function (obj, done) {
 });
 
 
+generateJwtToken = (payload) => {
+    return jwt.sign(payload, 'ifc-secret', {
+        expiresIn: appConfig.token_expire_duration
+    });
+}
+
 /*================= auth routes ==================*/
 
 
@@ -52,9 +58,7 @@ router.post('/login', (req, res, next) => {
                 res.send(err);
             }
             user.password = 'Hidden';
-            const token = jwt.sign(user.toJSON(), 'ifc-secret', {
-                expiresIn: '1m'
-            });
+            const token = generateJwtToken(user.toJSON());
             return res.json({
                 message: info.message,
                 user,
@@ -84,9 +88,7 @@ router.get('/access_token', (req, res) => {
     const userId = req.headers.user_id;
     if(token && userId) {
         userService.findByLoginToken(userId, token).then(user => {
-            const token = jwt.sign(user.toJSON(), 'ifc-secret', {
-                expiresIn: '1m'
-            });
+            const token = generateJwtToken(user.toJSON());
             user.passport = "Hidden";
             return res.json({
                 user,

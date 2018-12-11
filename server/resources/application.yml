@@ -1,3 +1,6 @@
+#common
+token_expire_duration: 7d
+
 database:
   name: ifc
   username: postgres
@@ -26,3 +29,32 @@ social:
 authentication:
   loginPage: http://localhost:3000/
   loginRedirect: http://localhost:3000/auth
+
+# database:
+#   name: det5uih0lhj0qq
+#   username: idimqdbxxumqfy
+#   password: 892d50d510f467a815ec20b974ea23f07ef2eb12449a709e35d37d93249ef478
+#   host: ec2-54-235-156-60.compute-1.amazonaws.com
+#   port: 5432
+#   dialect: postgres
+#   acquire: 30000
+#   idle: 10000
+#   logging: false
+#   useAliases: false
+
+# ui:
+#   url: https://christmas-2018.herokuapp.com/
+
+# social:
+#   facebook:
+#     clientId: 316643352465436
+#     clientSecret: c66904d9aedf3085f993636d49004b37
+#     callback: https://christmas-handler.herokuapp.com/uaa/facebook/callback
+#   google:
+#     clientId: 748822582527-8nibm9l569r20egmb3vubpjuof6kgmsu.apps.googleusercontent.com
+#     clientSecret: oVgrZZYyfeTC6D7kGwCwcRAI
+#     callback: https://christmas-handler.herokuapp.com/uaa/google/callback
+
+# authentication:
+#   loginPage: https://christmas-2018.herokuapp.com/sign-in
+#   loginRedirect: https://christmas-2018.herokuapp.com/auth
