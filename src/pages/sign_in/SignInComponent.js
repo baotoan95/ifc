@@ -100,11 +100,11 @@ class SignInComponent extends Component {
                                     label="Password"
                                     type="password"
                                     name="password"/>
-                                <Field
+                                {/* <Field
                                     component={this.renderRememberCheckbox}
                                     label="Remember me"
                                     type="checkbox"
-                                    name="remember"/>
+                                    name="remember"/> */}
                                 <button type="submit" disabled={pristine || submitting || invalid}
                                     className="btn btn-primary">Sign In</button>
                             </form>

@@ -137,9 +137,9 @@ class Christmas extends Component {
             {/* <SnowStorm /> */}
             {this.props.showGetLinkModal && <div className="modal-container">
                 <div className="modal">
-                    <div className="modal-title">Create successfully</div>
+                    <div className="modal-title">Đã lưu</div>
                     <div className="modal-content">
-                        <p>Click the link below to copy and send to your lover:</p>
+                        <p>Sao chép link dưới và gửi tới người bạn yêu thương</p>
                         <input type="text" readOnly={true} ref="link" 
                         onClick={this.copyLink}
                         className="form-control" 

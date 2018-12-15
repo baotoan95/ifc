@@ -13,7 +13,7 @@ export const UPDATE_WISH_FAILURE = 'UPDATE_WISH_FAILURE';
 export const typing = (text) => {
     return {
         type: TYPING,
-        payload: text
+        payload: text.replace(/\r\n|\r|\n/g,'<br />')
     }
 }
 

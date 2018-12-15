@@ -2,13 +2,12 @@ import React, { Component } from 'react';
 import './ConfigPanelComponent.scss';
 import { Field, reduxForm } from 'redux-form';
 import { create } from './ConfigPanelAction';
-import CKEditor from "react-ckeditor-component";
 
 const validate = (values) => {
     const errors = {};
 
     if(!values.message) {
-        errors.message = 'Message is required';
+        errors.message = 'Vui lòng nhập nội dung tin nhắn';
     }
 
     return errors;
@@ -37,8 +36,9 @@ class ConfigPanelComponent extends Component {
     renderMessageField = ({ input, label, type, meta: { touched, error, warning } }) => {
         return <div className={"form-group" + (touched && error ? " hasError" : "")}>
                     <label htmlFor="message">{label}</label>
-                    <textarea {...input} className="form-control" type={type}
-                        rows={3} />
+                    <div className="editor-container">
+                        <textarea {...input} className="form-control" type={type} rows={3} />
+                    </div>
                     {touched && error && <span>{error}</span>}
                 </div>
     }
@@ -57,19 +57,20 @@ class ConfigPanelComponent extends Component {
                     <div className="panel">
                         <form onSubmit={handleSubmit(this.handleSubmit)}>
                             <div className="form-group">
-                                <label htmlFor="backgroundMusic">Background music</label>
+                                <label htmlFor="backgroundMusic">Nhạc nền</label>
                                 <Field type="text" className="form-control" name="background_sound"
                                 component="input" onBlur={this.changeBackgroundSound}
                                 id="backgroundMusic" placeholder="https://www.nhaccuatui.com/mh/auto/I2jtpWcn3M" />
+                                <span className="note">Bạn có thể sử dụng link từ nhaccuatui.com hoặc mp3.zing.vn</span>
                             </div>
                             <Field name="message"
                                 component={this.renderMessageField}
                                 onChange={this.typing}
-                                label="Message"/>
+                                label="Nội dung tin nhắn"/>
                             <div className="form-group">
-                                <button className="btn btn-primary" type="submit" disabled={pristine || submitting || invalid}>Save</button>
-                                <button className="btn btn-primary pull-right" type="button" onClick={reset}>Reset</button>
-                                <button className="btn btn-danger" type="button" onClick={this.signOut}>Sign Out</button>
+                                <button className="btn btn-primary" type="submit" disabled={pristine || submitting || invalid}>Lưu</button>
+                                <button className="btn btn-primary pull-right" type="button" onClick={reset}>Đặt Lại</button>
+                                <button className="btn btn-danger" type="button" onClick={this.signOut}>Đăng Xuất</button>
                             </div>
                         </form>
                     </div>
