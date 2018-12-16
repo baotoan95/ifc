@@ -26,6 +26,26 @@
 
         &.show {
             left: 0;
+            .toggle::after {
+                content: "x"
+            }
+        }
+
+        &.hidden {
+            @keyframes shadow-pulse {
+                0% {
+                    box-shadow: 0 0 0 0px rgba(29, 148, 142, 0.9);
+                }
+                100% {
+                    box-shadow: 0 0 0 35px rgba(29, 148, 142, 0);
+                }
+            }
+            .toggle {
+                &::after {
+                    content: ">>"
+                }
+                animation: shadow-pulse 1s infinite;
+            }
         }
 
         .panel {

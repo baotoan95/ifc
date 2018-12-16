@@ -53,7 +53,7 @@ class ConfigPanelComponent extends Component {
         return (
             <div className="control-panel-wrapper col-md-12">
                 <div className={'config-panel' + (this.props.display ? ' show' : ' hidden')}>
-                    <div className="toggle" onClick={this.props.toggle}>|||</div>
+                    <div className="toggle" onClick={this.props.toggle}></div>
                     <div className="panel">
                         <form onSubmit={handleSubmit(this.handleSubmit)}>
                             <div className="form-group">
